@@ -1,6 +1,7 @@
 """
 Continuous screen monitoring service for N-Queens puzzle detection
 """
+import os
 import time
 import subprocess
 import cv2
@@ -292,7 +293,7 @@ def solve(img_array):
         
         print(f"Grid {i+ 1} / {i+1} has size {grid_size}")
 
-        if cells is None:
+        if cells is None or grid_size[0] != grid_size[1]:
             continue
 
         cellss.append(cells)
@@ -369,6 +370,7 @@ def monitor_screen(interval=2.0):
 
                         # Save to temporary file
                         output_path = data_dir / f"solution_grid{idx}_sol{sol_idx}_{int(time.time())}.png"
+                        os.makedirs(output_path.parent, exist_ok= True)
                         result_img.save(output_path)
                         print(f"Solution saved: {output_path}")
 
